@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nike × Jordan Store</title>
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-text">NIKE</span>
+      <span class="logo-x">×</span>
+      <span class="logo-text">JORDAN</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="html/inicio_sesion.html" class="nav-link">Iniciar Sesión</a>
+      <a href="#" class="nav-link">Mujeres</a>
+      <a href="#" class="nav-link">Niños</a>
+      <a href="#" class="nav-link nav-link-sale">Sale</a>
+    </div>
+
+    <button class="cart-btn" id="cartBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 01-8 0" />
+      </svg>
+      Carrito
+      <span class="cart-count" id="cartCount" style="display:none;">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-diagonal"></div>
+
+  <div class="hero-content-wrap">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        JUST
+        <br>
+        <span class="hero-title-accent">DO</span>
+        <br>
+        IT.
+      </h1>
+      <p class="hero-text">Nike y Jordan. Dos legados. Una obsesión por el rendimiento, el estilo y la cultura.</p>
+      <div class="hero-actions">
+        <a href="#productos" class="btn btn-primary">
+          Ver Colección
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="#marcas" class="btn btn-outline">Explorar Marcas</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND CARDS -->
+<section id="marcas" class="brands">
+  <div class="brands-inner">
+    <div class="brands-grid">
+      <!-- Nike -->
+      <div class="brand-card">
+        <img class="brand-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop&auto=format" alt="Nike collection">
+        <div class="brand-overlay"></div>
+        <div class="brand-content">
+          <div class="brand-title">NIKE</div>
+          <p class="brand-desc">Rendimiento. Estilo. Cultura. Más de 50 años liderando el deporte.</p>
+          <button class="brand-btn brand-btn-nike" data-filter="NIKE">Ver Nike →</button>
+        </div>
+      </div>
+
+      <!-- Jordan -->
+      <div class="brand-card">
+        <img class="brand-img" src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&h=600&fit=crop&auto=format" alt="Jordan collection">
+        <div class="brand-overlay"></div>
+        <div class="brand-content">
+          <div class="brand-title brand-title-red">JORDAN</div>
+          <p class="brand-desc">Legado de Michael Jordan Desde la cancha hasta las calles del mundo.</p>
+          <button class="brand-btn brand-btn-jordan" data-filter="JORDAN">Ver Jordan →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="productos" class="products">
+  <div class="products-inner">
+    <div class="products-header">
+      <div>
+        <div class="eyebrow">Catálogo Completo</div>
+        <h2 class="products-title">
+          TODOS LOS
+          <br>
+          <span class="products-title-accent">MODELOS</span>
+        </h2>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="TODOS">TODOS</button>
+        <button class="filter-tab" data-filter="NIKE">NIKE</button>
+        <button class="filter-tab" data-filter="JORDAN">JORDAN</button>
+      </div>
+    </div>
+
+    <div class="results-count" id="resultsCount">12 modelos encontrados</div>
+
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- BANNER STRIP -->
+<div class="marquee-strip">
+  <div class="marquee-inner" id="marqueeInner"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">NIKE <span class="footer-logo-x">×</span> JORDAN</div>
+        <p class="footer-desc">La tienda definitiva de Nike y Jordan Brand. Sneakers auténticos, entrega rápida en toda Latinoamérica.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Productos</div>
+        <a href="#">Nike Running</a>
+        <a href="#">Nike Lifestyle</a>
+        <a href="#">Air Jordan 1</a>
+        <a href="#">Air Jordan 4</a>
+        <a href="#">Air Jordan 11</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Ayuda</div>
+        <a href="#">Tallas y Medidas</a>
+        <a href="#">Envíos</a>
+        <a href="#">Devoluciones</a>
+        <a href="#">Contacto</a>
+        <a href="#">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Empresa</div>
+        <a href="#">Sobre Nosotros</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#">Afiliados</a>
+        <a href="#">Prensa</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Nike × Jordan Store. Todos los derechos reservados.</div>
+      <div class="footer-legal">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/index.js"></script>
+</body>
+</html>
