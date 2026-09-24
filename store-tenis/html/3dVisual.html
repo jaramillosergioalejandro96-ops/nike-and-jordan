@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visor 3D de Imágenes</title>
+<link rel="stylesheet" href="../css/3dvisual.css">
+</head>
+<body>
+<div id="app">
+  <div id="canvas-holder"></div>
+
+  <div class="hud" id="hud">
+    <h1>Visor 3D de imágenes</h1>
+    <p>Arrastra para rotar · Rueda / pellizco para zoom</p>
+  </div>
+
+  <div class="zoom-hint" id="zoomHint">
+    <button id="zoomIn" title="Acercar">+</button>
+    <button id="zoomOut" title="Alejar">−</button>
+  </div>
+
+</div>
+
+<!-- Three.js (r128) vía CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../js/3dvisual.js"></script>
+</body>
+</html>
