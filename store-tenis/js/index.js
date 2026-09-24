@@ -1,26 +1,230 @@
-const products = [
-  { id: 1, brand: "Nike", name: "Air Max 270", price: 150, color: "Triple Black", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop&auto=format", tag: "BESTSELLER" },
-  { id: 2, brand: "Nike", name: "Air Force 1 '07", price: 110, color: "White / White", img: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=600&h=600&fit=crop&auto=format", tag: "CLÁSICO" },
-  { id: 3, brand: "Nike", name: "Dunk High", price: 115, color: "White / Sail", img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&h=600&fit=crop&auto=format", tag: null },
-  { id: 4, brand: "Nike", name: "Air Max 97", price: 175, color: "Black / White", img: "https://images.unsplash.com/photo-1605408499391-6368c628ef42?w=600&h=600&fit=crop&auto=format", tag: "NUEVO" },
-  { id: 5, brand: "Nike", name: "React Infinity Run", price: 160, color: "Black / Orange", img: "https://images.unsplash.com/photo-1585232004423-244e0e6904e3?w=600&h=600&fit=crop&auto=format", tag: null },
-  { id: 6, brand: "Nike", name: "Blazer Mid '77", price: 100, color: "White / Gum", img: "https://images.unsplash.com/photo-1656164753657-8ff832063a71?w=600&h=600&fit=crop&auto=format", tag: "SALE" },
-  { id: 7, brand: "Jordan", name: "Air Jordan 1 Retro High OG", price: 180, color: "Black / White / Red", img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&h=600&fit=crop&auto=format", tag: "ICÓNICO" },
-  { id: 8, brand: "Jordan", name: "Air Jordan 13 Retro", price: 210, color: "Black / White", img: "https://images.unsplash.com/photo-1533681018184-68bd1d883b97?w=600&h=600&fit=crop&auto=format", tag: null },
-  { id: 9, brand: "Jordan", name: "Air Jordan 4 Retro", price: 220, color: "Fire Red", img: "https://images.unsplash.com/photo-1731132198530-e4b2dc51d511?w=600&h=600&fit=crop&auto=format", tag: "NUEVO" },
-  { id: 10, brand: "Jordan", name: "Air Jordan 6 Rings", price: 195, color: "Red / Chrome", img: "https://images.unsplash.com/photo-1686931463322-916e93213d86?w=600&h=600&fit=crop&auto=format", tag: null },
-  { id: 11, brand: "Jordan", name: "Air Jordan 11 Retro", price: 245, color: "White / Red", img: "https://images.unsplash.com/photo-1605523741177-cd660595c2cf?w=600&h=600&fit=crop&auto=format", tag: "PREMIUM" },
-  { id: 12, brand: "Jordan", name: "Air Jordan 3 Retro", price: 200, color: "White / Cement", img: "https://images.unsplash.com/photo-1656335362192-2bc9051b1824?w=600&h=600&fit=crop&auto=format", tag: null },
-];
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem("currentUser"));
+  } catch (e) {
+    return null;
+  }
+}
+
+function renderAuthNav() {
+  const currentUser = getCurrentUser();
+
+  const navLinksGuest = document.getElementById("navLinksGuest");
+  const navLinksUser = document.getElementById("navLinksUser");
+  const navGreeting = document.getElementById("navGreeting");
+  const adminPanelLink = document.getElementById("adminPanelLink");
+
+  if (currentUser) {
+    navLinksGuest.style.display = "none";
+    navLinksUser.style.display = "flex";
+    navGreeting.textContent = `hola, ${currentUser.nombre}`;
+  } else {
+    navLinksGuest.style.display = "flex";
+    navLinksUser.style.display = "none";
+  }
+
+  if (adminPanelLink) {
+    adminPanelLink.style.display = (currentUser && currentUser.rol === "administrador") ? "flex" : "none";
+  }
+}
+
+document.getElementById("navLogoutLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  localStorage.removeItem("currentUser");
+  renderAuthNav();
+});
+
+const products = [];
 
 let currentFilter = "TODOS";
-let cartCount = 0;
 const wishlist = new Set();
 
 const productsGrid = document.getElementById("productsGrid");
 const resultsCount = document.getElementById("resultsCount");
 const cartBtn = document.getElementById("cartBtn");
 const cartCountEl = document.getElementById("cartCount");
+
+const CART_KEY = "nikeJordanCart";
+let cart = [];
+
+function loadCart() {
+  try {
+    const saved = localStorage.getItem(CART_KEY);
+    cart = saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    cart = [];
+  }
+}
+
+function saveCart() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  } catch (e) {
+  }
+}
+
+function addToCart(product) {
+  const existing = cart.find((item) => item.id === product.id);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({
+      id: product.id,
+      brand: product.brand,
+      name: product.name,
+      color: product.color,
+      price: product.price,
+      img: product.img,
+      qty: 1,
+    });
+  }
+  saveCart();
+  renderCart();
+  showToast(`${product.name} añadido al carrito`);
+  openCart();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find((i) => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) {
+    cart = cart.filter((i) => i.id !== id);
+  }
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter((i) => i.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  saveCart();
+  renderCart();
+}
+
+function cartTotalItems() {
+  return cart.reduce((sum, i) => sum + i.qty, 0);
+}
+
+function cartTotalPrice() {
+  return cart.reduce((sum, i) => sum + i.qty * i.price, 0);
+}
+
+const cartOverlay = document.getElementById("cartOverlay");
+const cartDrawer = document.getElementById("cartDrawer");
+const cartClose = document.getElementById("cartClose");
+const cartEmpty = document.getElementById("cartEmpty");
+const cartItemsEl = document.getElementById("cartItems");
+const cartFooter = document.getElementById("cartFooter");
+const cartTotalEl = document.getElementById("cartTotal");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const checkoutBtn = document.getElementById("checkoutBtn");
+
+function renderCart() {
+  const totalItems = cartTotalItems();
+
+  // Nav badge
+  if (totalItems > 0) {
+    cartCountEl.style.display = "flex";
+    cartCountEl.textContent = totalItems;
+  } else {
+    cartCountEl.style.display = "none";
+  }
+
+  // Empty state vs items
+  if (cart.length === 0) {
+    cartEmpty.style.display = "flex";
+    cartItemsEl.style.display = "none";
+    cartFooter.style.display = "none";
+    return;
+  }
+
+  cartEmpty.style.display = "none";
+  cartItemsEl.style.display = "flex";
+  cartFooter.style.display = "block";
+
+  cartItemsEl.innerHTML = cart.map((item) => `
+    <div class="cart-item" data-id="${item.id}">
+      <div class="cart-item-img">
+        <img src="${item.img}" alt="${item.name}">
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-brand ${item.brand === "Jordan" ? "brand-jordan" : ""}">${item.brand}</div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-color">${item.color}</div>
+        <div class="cart-item-row">
+          <div class="qty-control">
+            <button class="qty-btn" data-action="dec" data-id="${item.id}">−</button>
+            <span class="qty-value">${item.qty}</span>
+            <button class="qty-btn" data-action="inc" data-id="${item.id}">+</button>
+          </div>
+          <span class="cart-item-price">$${item.price * item.qty}</span>
+        </div>
+      </div>
+      <button class="cart-item-remove" data-action="remove" data-id="${item.id}" aria-label="Eliminar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  `).join("");
+
+  cartTotalEl.textContent = `$${cartTotalPrice()}`;
+}
+
+cartItemsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  const id = Number(btn.dataset.id);
+  const action = btn.dataset.action;
+
+  if (action === "inc") changeQty(id, 1);
+  if (action === "dec") changeQty(id, -1);
+  if (action === "remove") removeFromCart(id);
+});
+
+clearCartBtn.addEventListener("click", clearCart);
+
+checkoutBtn.addEventListener("click", () => {
+  showToast("¡Gracias por tu compra! (demo)");
+  clearCart();
+  closeCart();
+});
+
+function openCart() {
+  cartOverlay.classList.add("active");
+  cartDrawer.classList.add("active");
+}
+function closeCart() {
+  cartOverlay.classList.remove("active");
+  cartDrawer.classList.remove("active");
+}
+
+cartBtn.addEventListener("click", openCart);
+cartClose.addEventListener("click", closeCart);
+cartOverlay.addEventListener("click", closeCart);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeCart();
+});
+
+let toastTimeout;
+function showToast(message) {
+  let toast = document.querySelector(".cart-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.className = "cart-toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  clearTimeout(toastTimeout);
+  requestAnimationFrame(() => toast.classList.add("show"));
+  toastTimeout = setTimeout(() => toast.classList.remove("show"), 2200);
+}
 
 function getTagClass(tag) {
   return (tag === "SALE" || tag === "NUEVO") ? "product-tag tag-red" : "product-tag";
@@ -33,6 +237,14 @@ function renderProducts() {
   });
 
   resultsCount.textContent = `${filtered.length} modelos encontrados`;
+
+  const catalogEmpty = document.getElementById("catalogEmpty");
+  if (filtered.length === 0) {
+    catalogEmpty.style.display = "block";
+    productsGrid.innerHTML = "";
+    return;
+  }
+  catalogEmpty.style.display = "none";
 
   productsGrid.innerHTML = filtered.map((product) => `
     <div class="product-card" data-id="${product.id}">
@@ -61,16 +273,6 @@ function renderProducts() {
   `).join("");
 }
 
-function updateCartDisplay() {
-  if (cartCount > 0) {
-    cartCountEl.style.display = "flex";
-    cartCountEl.textContent = cartCount;
-  } else {
-    cartCountEl.style.display = "none";
-  }
-}
-
-// Filter tabs (top of products section)
 document.querySelectorAll(".filter-tab").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentFilter = btn.dataset.filter;
@@ -80,7 +282,6 @@ document.querySelectorAll(".filter-tab").forEach((btn) => {
   });
 });
 
-// Brand card buttons (Nike / Jordan hero cards) also set the filter
 document.querySelectorAll(".brand-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentFilter = btn.dataset.filter;
@@ -92,13 +293,6 @@ document.querySelectorAll(".brand-btn").forEach((btn) => {
   });
 });
 
-// Cart button: clicking decrements (matches original behavior)
-cartBtn.addEventListener("click", () => {
-  cartCount = Math.max(0, cartCount - 1);
-  updateCartDisplay();
-});
-
-// Delegate clicks inside the product grid (wishlist + quick add)
 productsGrid.addEventListener("click", (e) => {
   const wishBtn = e.target.closest(".wishlist-btn");
   const addBtn = e.target.closest(".quick-add-btn");
@@ -117,12 +311,12 @@ productsGrid.addEventListener("click", (e) => {
 
   if (addBtn) {
     e.stopPropagation();
-    cartCount += 1;
-    updateCartDisplay();
+    const id = Number(addBtn.dataset.id);
+    const product = products.find((p) => p.id === id);
+    if (product) addToCart(product);
   }
 });
 
-// Marquee strip content
 const marqueeInner = document.getElementById("marqueeInner");
 let marqueeHTML = "";
 for (let i = 0; i < 6; i++) {
@@ -131,5 +325,7 @@ for (let i = 0; i < 6; i++) {
 }
 marqueeInner.innerHTML = marqueeHTML;
 
-// Initial render
+loadCart();
 renderProducts();
+renderCart();
+renderAuthNav();
