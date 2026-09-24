@@ -11,10 +11,12 @@ function escapeHtml(value) {
 
 function getProduct() {
   try {
-    const products = JSON.parse(localStorage.getItem(CATALOG_KEY) || "[]");
+    const saved = localStorage.getItem(CATALOG_KEY);
+    const storedProducts = saved ? JSON.parse(saved) : [];
+    const products = storedProducts.length > 0 ? storedProducts : window.CATALOG_PRODUCTS;
     return products.find((product) => Number(product.id) === productId);
   } catch (e) {
-    return null;
+    return window.CATALOG_PRODUCTS.find((product) => Number(product.id) === productId);
   }
 }
 
@@ -24,7 +26,8 @@ function showError() {
 
 function renderProfile(product) {
   const brandClass = product.brand === "Jordan" ? "brand-jordan" : "";
-  const description = `${product.name} combina la identidad de ${product.brand} con una silueta pensada para acompañarte todos los días. Su acabado ${product.color.toLowerCase()} suma presencia a cualquier combinación.`;
+  const description = product.description || `${product.name} combina la identidad de ${product.brand} con una silueta pensada para acompañarte todos los días. Su acabado ${product.color.toLowerCase()} suma presencia a cualquier combinación.`;
+  document.title = `${product.name} · Nike × Jordan Store`;
   profilePage.innerHTML = `
     <div class="profile-layout">
       <div class="product-visual">

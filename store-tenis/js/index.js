@@ -48,8 +48,9 @@ document.getElementById("navLogoutLink").addEventListener("click", (e) => {
 //     renderProducts();
 //   }
 //   loadProducts();
-// Por ahora el catálogo queda vacío a propósito.
-const products = [];
+const products = Array.isArray(window.CATALOG_PRODUCTS)
+  ? window.CATALOG_PRODUCTS.map((product) => ({ ...product }))
+  : [];
 
 let currentFilter = "TODOS";
 const wishlist = new Set();
@@ -405,7 +406,9 @@ function renderProducts() {
   productsGrid.innerHTML = filtered.map((product) => `
     <div class="product-card" data-id="${product.id}">
       <div class="product-img-wrap">
-        <img class="product-img" src="${product.img}" alt="${product.name}">
+        <a class="product-image-link" href="html/perfil_zapato.html?id=${product.id}" aria-label="Ver perfil de ${product.name}">
+          <img class="product-img" src="${product.img}" alt="${product.name}">
+        </a>
         ${product.tag ? `<div class="${getTagClass(product.tag)}">${product.tag}</div>` : ""}
         <button class="wishlist-btn ${wishlist.has(product.id) ? "active" : ""}" data-id="${product.id}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="${wishlist.has(product.id) ? "currentColor" : "none"}" stroke-width="2">
@@ -418,7 +421,7 @@ function renderProducts() {
       </div>
       <div class="product-info">
         <div class="product-brand ${product.brand === "Jordan" ? "brand-jordan" : ""}">${product.brand}</div>
-        <div class="product-name">${product.name}</div>
+        <a class="product-name product-profile-link" href="html/perfil_zapato.html?id=${product.id}">${product.name}</a>
         <div class="product-color">${product.color}</div>
         <div class="product-price-row">
           <span class="product-price">$${product.price}</span>
