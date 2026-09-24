@@ -34,7 +34,18 @@ document.getElementById("navLogoutLink").addEventListener("click", (e) => {
   renderAuthNav();
 });
 
-const products = [];
+const CATALOG_KEY = "nikeJordanAdminCatalog";
+
+function loadCatalogProducts() {
+  try {
+    const saved = localStorage.getItem(CATALOG_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+const products = loadCatalogProducts();
 
 let currentFilter = "TODOS";
 const wishlist = new Set();
@@ -268,6 +279,7 @@ function renderProducts() {
           <span class="product-price">$${product.price}</span>
           <span class="product-currency">USD</span>
         </div>
+        <a class="product-profile-link" href="html/perfil_zapato.html?id=${product.id}">Ver perfil del modelo</a>
       </div>
     </div>
   `).join("");

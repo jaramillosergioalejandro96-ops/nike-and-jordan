@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #080808;
+  --surface: #111;
+  --surface-2: #1a1a1a;
+  --border: #2a2a2a;
+  --text: #f0f0f0;
+  --muted: #888;
+  --red: #e8001c;
+  --display: 'Barlow Condensed', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+
+.profile-nav {
+  height: 72px; padding: 0 5vw; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid #1e1e1e;
+  background: rgba(8, 8, 8, .94); position: sticky; top: 0; z-index: 2;
+}
+.logo { display: flex; align-items: center; gap: 10px; font: 900 27px var(--display); letter-spacing: .02em; }
+.logo b { color: var(--red); font-size: 20px; }
+.back-link { color: #aaa; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.back-link:hover { color: #fff; }
+
+.profile-page { max-width: 1180px; min-height: calc(100vh - 72px); margin: 0 auto; padding: 72px 5vw 100px; }
+.profile-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr); gap: 7vw; align-items: center; }
+.product-visual { position: relative; background: var(--surface-2); aspect-ratio: 1 / 1; overflow: hidden; }
+.product-visual::after { content: ''; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,.08); pointer-events: none; }
+.product-visual img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.profile-tag { position: absolute; top: 25px; left: 25px; z-index: 1; padding: 8px 12px; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.profile-eyebrow { margin: 0 0 12px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.profile-title { margin: 0; font: 900 clamp(56px, 8vw, 112px)/.84 var(--display); letter-spacing: -.02em; text-transform: uppercase; }
+.profile-color { margin: 24px 0 0; color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: .1em; }
+.profile-description { max-width: 480px; margin: 30px 0; color: #aaa; font-size: 15px; line-height: 1.8; }
+.profile-price { font: 700 35px var(--display); }
+.profile-currency { color: var(--muted); font-size: 11px; letter-spacing: .12em; margin-left: 8px; }
+.purchase-panel { border-top: 1px solid var(--border); margin-top: 30px; padding-top: 24px; }
+.field-label { display: block; margin-bottom: 10px; color: #aaa; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.size-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.size-btn { padding: 12px 5px; border: 1px solid var(--border); background: transparent; color: #aaa; cursor: pointer; }
+.size-btn.selected, .size-btn:hover { border-color: var(--text); background: var(--text); color: var(--bg); }
+.purchase-row { display: grid; grid-template-columns: 112px 1fr; gap: 8px; margin-top: 18px; }
+.quantity { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); }
+.quantity button { width: 34px; height: 100%; border: 0; background: transparent; color: var(--text); cursor: pointer; }
+.quantity span { font-size: 14px; }
+.add-button { border: 0; background: var(--red); color: #fff; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.add-button:hover { background: #ff1a30; }
+.profile-toast { position: fixed; right: 24px; bottom: 24px; padding: 14px 18px; background: var(--text); color: var(--bg); font-size: 13px; transform: translateY(120%); transition: transform .25s ease; }
+.profile-toast.show { transform: translateY(0); }
+.profile-loading, .profile-error { padding: 80px 0; color: var(--muted); }
+
+@media (max-width: 760px) {
+  .profile-nav { padding: 0 20px; }
+  .logo { font-size: 22px; }
+  .back-link { font-size: 10px; }
+  .profile-page { padding: 38px 20px 70px; }
+  .profile-layout { display: block; }
+  .product-info { padding-top: 42px; }
+  .profile-title { font-size: clamp(58px, 17vw, 92px); }
+}

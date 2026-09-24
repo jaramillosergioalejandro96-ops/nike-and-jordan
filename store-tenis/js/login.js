@@ -2,7 +2,7 @@ const MAX_ATTEMPTS = 5;
 const LOCKOUT_MINUTES = 3;
 const STORAGE_KEY = "userLoginAttempts";
 
-// ===== DOM refs =====
+
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
