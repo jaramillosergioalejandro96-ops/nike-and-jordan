@@ -1,7 +1,6 @@
-// ===== CONFIG =====
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_MINUTES = 3;
-const STORAGE_KEY = "adminLoginAttempts";
+const STORAGE_KEY = "userLoginAttempts";
 
 // ===== DOM refs =====
 const form = document.getElementById("loginForm");
@@ -18,7 +17,6 @@ const strengthWrap = document.getElementById("strengthWrap");
 const strengthFill = document.getElementById("strengthFill");
 const strengthLabel = document.getElementById("strengthLabel");
 
-// ===== Helpers: banner =====
 function showBanner(message, type) {
   formBanner.textContent = message;
   formBanner.className = `form-banner ${type}`;
@@ -29,7 +27,6 @@ function hideBanner() {
   formBanner.style.display = "none";
 }
 
-// ===== Helpers: field error state =====
 function setFieldError(inputEl, errorEl, message) {
   inputEl.closest(".form-group").classList.add("has-error");
   inputEl.closest(".form-group").classList.remove("is-valid");
@@ -47,7 +44,6 @@ function clearFieldState(inputEl, errorEl) {
   errorEl.textContent = "";
 }
 
-// ===== Validation: email =====
 function validateEmail(showError = true) {
   const value = emailInput.value.trim();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -62,18 +58,10 @@ function validateEmail(showError = true) {
     return false;
   }
 
-  // Domain-specific rule: only allow the store's admin domain
-  const allowedDomain = "nikejordanstore.com";
-  if (!value.toLowerCase().endsWith("@" + allowedDomain)) {
-    if (showError) setFieldError(emailInput, emailError, `Usa tu correo corporativo (@${allowedDomain}).`);
-    return false;
-  }
-
   setFieldValid(emailInput, emailError);
   return true;
 }
 
-// ===== Validation: password strength / rules =====
 function getPasswordChecks(value) {
   return {
     length: value.length >= 8,
@@ -148,7 +136,6 @@ function validatePassword(showError = true) {
   return true;
 }
 
-// ===== Live validation (on input / blur) =====
 emailInput.addEventListener("input", () => {
   if (emailInput.value.trim() === "") {
     clearFieldState(emailInput, emailError);
@@ -176,14 +163,12 @@ passwordInput.addEventListener("blur", () => {
   if (passwordInput.value !== "") validatePassword();
 });
 
-// ===== Toggle password visibility =====
 togglePassword.addEventListener("click", () => {
   const isPassword = passwordInput.type === "password";
   passwordInput.type = isPassword ? "text" : "password";
   togglePassword.setAttribute("aria-label", isPassword ? "Ocultar contraseña" : "Mostrar contraseña");
 });
 
-// ===== Lockout logic (stored in-memory for this session) =====
 let attemptState = { count: 0, lockedUntil: null };
 
 function isLockedOut() {
@@ -217,25 +202,22 @@ function tickLockoutCountdown() {
   setTimeout(tickLockoutCountdown, 1000);
 }
 
-// ===== Submit loading state =====
 function setSubmitLoading(isLoading) {
   submitBtn.disabled = isLoading || isLockedOut();
   submitText.innerHTML = isLoading
     ? `<span class="spinner"></span> Verificando...`
-    : "Ingresar al Panel";
+    : "Iniciar Sesión";
 }
 
-// ===== Fake credential check (demo only — replace with real backend call) =====
-const DEMO_ADMIN = {
-  email: "admin@nikejordanstore.com",
-  password: "Admin2026!",
+const DEMO_USER = {
+  email: "usuario@nikejordanstore.com",
+  password: "Usuario2026!",
 };
 
 function checkCredentials(email, password) {
-  return email.toLowerCase() === DEMO_ADMIN.email && password === DEMO_ADMIN.password;
+  return email.toLowerCase() === DEMO_USER.email && password === DEMO_USER.password;
 }
 
-// ===== Form submit =====
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   hideBanner();
@@ -257,18 +239,21 @@ form.addEventListener("submit", (e) => {
 
   setSubmitLoading(true);
 
-  // Simulate network request
   setTimeout(() => {
     const success = checkCredentials(emailInput.value.trim(), passwordInput.value);
 
     if (success) {
       attemptState = { count: 0, lockedUntil: null };
       attemptsNote.textContent = "";
-      showBanner("¡Bienvenido! Redirigiendo al panel de administración...", "success");
+
+      localStorage.setItem("currentUser", JSON.stringify({
+        nombre: emailInput.value.trim().split("@")[0],
+        rol: "usuario",
+      }));
+
+      showBanner("¡Bienvenido! Redirigiendo...", "success");
       setSubmitLoading(false);
       submitBtn.disabled = true;
-      // Aquí iría la redirección real, por ejemplo:
-      // setTimeout(() => window.location.href = "/admin/dashboard", 1200);
     } else {
       attemptState.count += 1;
       const remaining = MAX_ATTEMPTS - attemptState.count;
@@ -290,5 +275,4 @@ form.addEventListener("submit", (e) => {
   }, 900);
 });
 
-// Initial state
 setSubmitLoading(false);

@@ -1,10 +1,8 @@
-// ===== DOM refs =====
 const form = document.getElementById("registerForm");
 
 const fullNameInput = document.getElementById("fullName");
 const emailInput = document.getElementById("email");
 const usernameInput = document.getElementById("username");
-const roleInput = document.getElementById("role");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const termsInput = document.getElementById("terms");
@@ -12,7 +10,6 @@ const termsInput = document.getElementById("terms");
 const fullNameError = document.getElementById("fullNameError");
 const emailError = document.getElementById("emailError");
 const usernameError = document.getElementById("usernameError");
-const roleError = document.getElementById("roleError");
 const passwordError = document.getElementById("passwordError");
 const confirmPasswordError = document.getElementById("confirmPasswordError");
 const termsError = document.getElementById("termsError");
@@ -26,11 +23,9 @@ const formBanner = document.getElementById("formBanner");
 const submitBtn = document.getElementById("submitBtn");
 const submitText = document.getElementById("submitText");
 
-// Demo "existing users" list to check for duplicates
-const EXISTING_EMAILS = ["admin@nikejordanstore.com"];
-const EXISTING_USERNAMES = ["admin"];
+const EXISTING_EMAILS = [];
+const EXISTING_USERNAMES = [];
 
-// ===== Helpers: banner =====
 function showBanner(message, type) {
   formBanner.textContent = message;
   formBanner.className = `form-banner ${type}`;
@@ -40,7 +35,6 @@ function hideBanner() {
   formBanner.style.display = "none";
 }
 
-// ===== Helpers: field state =====
 function setFieldError(inputEl, errorEl, message) {
   inputEl.closest(".form-group").classList.add("has-error");
   inputEl.closest(".form-group").classList.remove("is-valid");
@@ -56,7 +50,6 @@ function clearFieldState(inputEl, errorEl) {
   errorEl.textContent = "";
 }
 
-// ===== Validation: nombre completo =====
 function validateFullName(showError = true) {
   const value = fullNameInput.value.trim();
   const nameRegex = /^[A-Za-zÁÉÍÓÚÑáéíóúñ]+(\s[A-Za-zÁÉÍÓÚÑáéíóúñ]+)+$/;
@@ -77,11 +70,9 @@ function validateFullName(showError = true) {
   return true;
 }
 
-// ===== Validation: email =====
 function validateEmail(showError = true) {
   const value = emailInput.value.trim();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const allowedDomain = "nikejordanstore.com";
 
   if (value === "") {
     if (showError) setFieldError(emailInput, emailError, "El correo electrónico es obligatorio.");
@@ -89,10 +80,6 @@ function validateEmail(showError = true) {
   }
   if (!emailRegex.test(value)) {
     if (showError) setFieldError(emailInput, emailError, "Ingresa un correo electrónico válido.");
-    return false;
-  }
-  if (!value.toLowerCase().endsWith("@" + allowedDomain)) {
-    if (showError) setFieldError(emailInput, emailError, `Debe ser un correo corporativo (@${allowedDomain}).`);
     return false;
   }
   if (EXISTING_EMAILS.includes(value.toLowerCase())) {
@@ -104,7 +91,6 @@ function validateEmail(showError = true) {
   return true;
 }
 
-// ===== Validation: username =====
 function validateUsername(showError = true) {
   const value = usernameInput.value.trim();
   const usernameRegex = /^[a-z0-9_]{4,16}$/;
@@ -126,24 +112,11 @@ function validateUsername(showError = true) {
   return true;
 }
 
-// Auto-lowercase + strip spaces as the admin types the username
 usernameInput.addEventListener("input", () => {
   const cleaned = usernameInput.value.toLowerCase().replace(/\s/g, "");
   if (cleaned !== usernameInput.value) usernameInput.value = cleaned;
 });
 
-// ===== Validation: rol =====
-function validateRole(showError = true) {
-  const value = roleInput.value;
-  if (value === "") {
-    if (showError) setFieldError(roleInput, roleError, "Selecciona un rol para el usuario.");
-    return false;
-  }
-  setFieldValid(roleInput, roleError);
-  return true;
-}
-
-// ===== Password strength / rules =====
 function getPasswordChecks(value) {
   return {
     length: value.length >= 8,
@@ -211,7 +184,6 @@ function validatePassword(showError = true) {
   return true;
 }
 
-// ===== Validation: confirmar contraseña =====
 function validateConfirmPassword(showError = true) {
   const value = confirmPasswordInput.value;
 
@@ -228,7 +200,6 @@ function validateConfirmPassword(showError = true) {
   return true;
 }
 
-// ===== Validation: términos =====
 function validateTerms(showError = true) {
   if (!termsInput.checked) {
     if (showError) termsError.textContent = "Debes aceptar las políticas para continuar.";
@@ -238,7 +209,6 @@ function validateTerms(showError = true) {
   return true;
 }
 
-// ===== Live validation listeners =====
 fullNameInput.addEventListener("input", () => {
   fullNameInput.value === "" ? clearFieldState(fullNameInput, fullNameError) : validateFullName();
   hideBanner();
@@ -256,11 +226,6 @@ usernameInput.addEventListener("input", () => {
   hideBanner();
 });
 usernameInput.addEventListener("blur", () => { if (usernameInput.value.trim() !== "") validateUsername(); });
-
-roleInput.addEventListener("change", () => {
-  validateRole();
-  hideBanner();
-});
 
 passwordInput.addEventListener("input", () => {
   updateStrengthMeter(passwordInput.value);
@@ -282,7 +247,6 @@ termsInput.addEventListener("change", () => {
   hideBanner();
 });
 
-// ===== Toggle password visibility (works for both password fields) =====
 document.querySelectorAll(".toggle-password").forEach((btn) => {
   btn.addEventListener("click", () => {
     const targetId = btn.dataset.target;
@@ -293,7 +257,6 @@ document.querySelectorAll(".toggle-password").forEach((btn) => {
   });
 });
 
-// ===== Submit loading state =====
 function setSubmitLoading(isLoading) {
   submitBtn.disabled = isLoading;
   submitText.innerHTML = isLoading
@@ -301,7 +264,6 @@ function setSubmitLoading(isLoading) {
     : "Crear Usuario";
 }
 
-// ===== Form submit =====
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   hideBanner();
@@ -310,7 +272,6 @@ form.addEventListener("submit", (e) => {
     validateFullName(),
     validateEmail(),
     validateUsername(),
-    validateRole(),
     validatePassword(),
     validateConfirmPassword(),
     validateTerms(),
@@ -327,7 +288,6 @@ form.addEventListener("submit", (e) => {
 
   setSubmitLoading(true);
 
-  // Simulate network request (replace with a real fetch/POST to your backend)
   setTimeout(() => {
     EXISTING_EMAILS.push(emailInput.value.trim().toLowerCase());
     EXISTING_USERNAMES.push(usernameInput.value.trim().toLowerCase());
@@ -336,8 +296,7 @@ form.addEventListener("submit", (e) => {
     setSubmitLoading(false);
     form.reset();
 
-    // Reset visual state of all fields after successful creation
-    [fullNameInput, emailInput, usernameInput, roleInput, passwordInput, confirmPasswordInput].forEach((el) => {
+    [fullNameInput, emailInput, usernameInput, passwordInput, confirmPasswordInput].forEach((el) => {
       el.closest(".form-group")?.classList.remove("has-error", "is-valid");
     });
     strengthWrap.style.display = "none";

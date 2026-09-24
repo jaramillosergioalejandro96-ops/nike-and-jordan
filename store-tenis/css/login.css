@@ -25,14 +25,14 @@ html, body {
   font-family: var(--font-body);
 }
 
-/* ===== LAYOUT ===== */
+
 .login-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
 }
 
-/* ===== LEFT BRAND PANEL ===== */
+
 .login-brand {
   position: relative;
   overflow: hidden;
@@ -104,7 +104,7 @@ html, body {
   max-width: 340px;
 }
 
-/* ===== RIGHT FORM PANEL ===== */
+
 .login-form-panel {
   display: flex;
   align-items: center;
@@ -143,7 +143,7 @@ html, body {
   margin: 0 0 36px;
 }
 
-/* ===== FORM ELEMENTS ===== */
+
 .form-group {
   margin-bottom: 20px;
 }
@@ -221,7 +221,7 @@ html, body {
   letter-spacing: 0.01em;
 }
 
-/* Password strength */
+
 .password-strength {
   display: flex;
   align-items: center;
@@ -253,7 +253,7 @@ html, body {
   white-space: nowrap;
 }
 
-/* Row: remember + forgot */
+
 .form-row {
   display: flex;
   align-items: center;
@@ -309,7 +309,7 @@ html, body {
 
 .forgot-link:hover { color: var(--red); }
 
-/* Alert banner (locked out / general errors) */
+
 .form-banner {
   padding: 12px 14px;
   border-radius: 2px;
@@ -330,7 +330,7 @@ html, body {
   color: #4ee08a;
 }
 
-/* Submit */
+
 .submit-btn {
   width: 100%;
   background: var(--red);
@@ -391,7 +391,7 @@ html, body {
 }
 .login-footer-note a:hover { text-decoration: underline; }
 
-/* Shake animation for invalid submit */
+
 @keyframes shake {
   10%, 90% { transform: translateX(-1px); }
   20%, 80% { transform: translateX(2px); }
@@ -401,7 +401,7 @@ html, body {
 
 .shake { animation: shake 0.5s; }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 900px) {
   .login-page { grid-template-columns: 1fr; }
   .login-brand { display: none; }

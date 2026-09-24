@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Administración · Nike × Jordan Store</title>
+<link rel="stylesheet" href="../css/administrador.css">
+</head>
+<body>
+
+<div class="admin-page">
+
+
+  <header class="admin-topbar">
+    <div class="admin-logo">
+      <span class="logo-text">NIKE</span>
+      <span class="logo-x">×</span>
+      <span class="logo-text">JORDAN</span>
+    </div>
+
+    <div class="admin-topbar-right">
+      <div class="admin-user" id="adminUser">
+        <span class="admin-role-badge">Administrador</span>
+        <span class="admin-username" id="adminUsername">—</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    <div class="admin-header">
+      <div>
+        <div class="eyebrow">Panel de administración</div>
+        <h1 class="admin-title">Catálogo de productos</h1>
+        <p class="admin-subtitle">Edita precios, agrega modelos nuevos o retira los que ya no estén disponibles.</p>
+      </div>
+      <button class="btn-add" id="openAddModal">+ Agregar producto</button>
+    </div>
+
+    <div class="admin-toolbar">
+      <input type="text" id="searchInput" class="search-input" placeholder="Buscar por nombre o marca...">
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="TODOS">Todos</button>
+        <button class="filter-pill" data-filter="NIKE">Nike</button>
+        <button class="filter-pill" data-filter="JORDAN">Jordan</button>
+      </div>
+    </div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Producto</th>
+            <th>Marca</th>
+            <th>Color</th>
+            <th>Precio (USD)</th>
+            <th>Etiqueta</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody"></tbody>
+      </table>
+
+      <div class="admin-empty" id="adminEmpty" style="display:none;">
+        <p>Todavía no hay productos en el catálogo.</p>
+        <span>Agrega el primero con el botón "+ Agregar producto".</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<div class="modal-overlay" id="addModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Agregar producto</h3>
+      <button class="modal-close" id="closeAddModal" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <form id="addProductForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="newName">Nombre del modelo</label>
+        <input type="text" id="newName" class="form-input-flat" placeholder="Ej. Air Max 90">
+        <span class="form-error" id="newNameError"></span>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label" for="newBrand">Marca</label>
+          <select id="newBrand" class="form-input-flat">
+            <option value="Nike">Nike</option>
+            <option value="Jordan">Jordan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPrice">Precio (USD)</label>
+          <input type="number" id="newPrice" class="form-input-flat" min="0" step="1" placeholder="150">
+          <span class="form-error" id="newPriceError"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="newColor">Color</label>
+        <input type="text" id="newColor" class="form-input-flat" placeholder="Ej. Triple Black">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="newImg">URL de imagen</label>
+        <input type="text" id="newImg" class="form-input-flat" placeholder="https://...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="newTag">Etiqueta (opcional)</label>
+        <input type="text" id="newTag" class="form-input-flat" placeholder="Ej. NUEVO, SALE">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="cancelAddModal">Cancelar</button>
+        <button type="submit" class="btn-add">Agregar al catálogo</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../js/administrador.js"></script>
+</body>
+</html>
