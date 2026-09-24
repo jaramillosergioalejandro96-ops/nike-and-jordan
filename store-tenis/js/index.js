@@ -1,3 +1,7 @@
+// ===== SESIÓN Y NAV (iniciar sesión / crear cuenta vs. usuario logueado) =====
+// TODO backend: "currentUser" se llena hoy en login.js tras un login demo.
+// Cuando exista el backend real, debe guardarse ahí mismo con el rol que
+// devuelva POST /api/login (definido en la base de datos).
 function getCurrentUser() {
   try {
     return JSON.parse(localStorage.getItem("currentUser"));
@@ -31,21 +35,21 @@ function renderAuthNav() {
 document.getElementById("navLogoutLink").addEventListener("click", (e) => {
   e.preventDefault();
   localStorage.removeItem("currentUser");
+  // TODO backend: si la sesión también vive en el servidor (ej. cookie),
+  // aquí habría que llamar a POST /api/logout.
   renderAuthNav();
 });
 
-const CATALOG_KEY = "nikeJordanAdminCatalog";
-
-function loadCatalogProducts() {
-  try {
-    const saved = localStorage.getItem(CATALOG_KEY);
-    return saved ? JSON.parse(saved) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-const products = loadCatalogProducts();
+// TODO backend: reemplazar este array por datos reales, ej.:
+//   let products = [];
+//   async function loadProducts() {
+//     const res = await fetch("/api/productos");
+//     products = await res.json();
+//     renderProducts();
+//   }
+//   loadProducts();
+// Por ahora el catálogo queda vacío a propósito.
+const products = [];
 
 let currentFilter = "TODOS";
 const wishlist = new Set();
@@ -55,6 +59,7 @@ const resultsCount = document.getElementById("resultsCount");
 const cartBtn = document.getElementById("cartBtn");
 const cartCountEl = document.getElementById("cartCount");
 
+// ===== CART STATE (persisted in localStorage) =====
 const CART_KEY = "nikeJordanCart";
 let cart = [];
 
@@ -71,6 +76,7 @@ function saveCart() {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   } catch (e) {
+    /* storage unavailable, ignore */
   }
 }
 
@@ -126,6 +132,7 @@ function cartTotalPrice() {
   return cart.reduce((sum, i) => sum + i.qty * i.price, 0);
 }
 
+// ===== CART DRAWER RENDER =====
 const cartOverlay = document.getElementById("cartOverlay");
 const cartDrawer = document.getElementById("cartDrawer");
 const cartClose = document.getElementById("cartClose");
@@ -135,8 +142,17 @@ const cartFooter = document.getElementById("cartFooter");
 const cartTotalEl = document.getElementById("cartTotal");
 const clearCartBtn = document.getElementById("clearCartBtn");
 const checkoutBtn = document.getElementById("checkoutBtn");
+const orderChoice = document.getElementById("orderChoice");
+const choicePedidoBtn = document.getElementById("choicePedidoBtn");
+const choiceReservaBtn = document.getElementById("choiceReservaBtn");
+
+function resetOrderChoice() {
+  checkoutBtn.style.display = "block";
+  orderChoice.style.display = "none";
+}
 
 function renderCart() {
+  resetOrderChoice();
   const totalItems = cartTotalItems();
 
   // Nav badge
@@ -202,11 +218,139 @@ cartItemsEl.addEventListener("click", (e) => {
 clearCartBtn.addEventListener("click", clearCart);
 
 checkoutBtn.addEventListener("click", () => {
-  showToast("¡Gracias por tu compra! (demo)");
-  clearCart();
-  closeCart();
+  checkoutBtn.style.display = "none";
+  orderChoice.style.display = "flex";
 });
 
+choicePedidoBtn.addEventListener("click", () => openModal(pedidoModalOverlay, pedidoNombreInput));
+choiceReservaBtn.addEventListener("click", () => openModal(reservaModalOverlay, reservaNombreInput));
+
+// ===== MODALES: PEDIDO Y RESERVA =====
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+function openModal(overlayEl, focusEl) {
+  overlayEl.classList.add("active");
+  if (focusEl) focusEl.focus();
+}
+function closeModal(overlayEl, formEl) {
+  overlayEl.classList.remove("active");
+  formEl.reset();
+  formEl.querySelectorAll(".form-error").forEach((el) => (el.textContent = ""));
+}
+
+// ----- Modal Pedido -----
+const pedidoModalOverlay = document.getElementById("pedidoModalOverlay");
+const pedidoForm = document.getElementById("pedidoForm");
+const pedidoNombreInput = document.getElementById("pedidoNombre");
+const pedidoCorreoInput = document.getElementById("pedidoCorreo");
+const pedidoFechaInput = document.getElementById("pedidoFecha");
+const pedidoNombreError = document.getElementById("pedidoNombreError");
+const pedidoCorreoError = document.getElementById("pedidoCorreoError");
+const pedidoFechaError = document.getElementById("pedidoFechaError");
+
+document.getElementById("closePedidoModal").addEventListener("click", () => closeModal(pedidoModalOverlay, pedidoForm));
+document.getElementById("cancelPedidoModal").addEventListener("click", () => closeModal(pedidoModalOverlay, pedidoForm));
+pedidoModalOverlay.addEventListener("click", (e) => {
+  if (e.target === pedidoModalOverlay) closeModal(pedidoModalOverlay, pedidoForm);
+});
+
+pedidoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let valid = true;
+  if (pedidoNombreInput.value.trim() === "") {
+    pedidoNombreError.textContent = "El nombre es obligatorio.";
+    valid = false;
+  } else {
+    pedidoNombreError.textContent = "";
+  }
+
+  if (!EMAIL_REGEX.test(pedidoCorreoInput.value.trim())) {
+    pedidoCorreoError.textContent = "Ingresa un correo válido.";
+    valid = false;
+  } else {
+    pedidoCorreoError.textContent = "";
+  }
+
+  if (pedidoFechaInput.value === "") {
+    pedidoFechaError.textContent = "Selecciona una fecha para recoger.";
+    valid = false;
+  } else {
+    pedidoFechaError.textContent = "";
+  }
+
+  if (!valid) return;
+
+  // TODO backend: reemplazar por
+  // fetch("/api/pedidos", { method: "POST", headers: {...}, body: JSON.stringify({
+  //   tipo: "pedido", nombre, correo, fechaRecogida, items: cart, total: cartTotalPrice()
+  // }) })
+  closeModal(pedidoModalOverlay, pedidoForm);
+  clearCart();
+  closeCart();
+  showToast("Tu pedido fue exitoso");
+});
+
+// ----- Modal Reserva -----
+const reservaModalOverlay = document.getElementById("reservaModalOverlay");
+const reservaForm = document.getElementById("reservaForm");
+const reservaNombreInput = document.getElementById("reservaNombre");
+const reservaCorreoInput = document.getElementById("reservaCorreo");
+const reservaDireccionInput = document.getElementById("reservaDireccion");
+const reservaNombreError = document.getElementById("reservaNombreError");
+const reservaCorreoError = document.getElementById("reservaCorreoError");
+const reservaDireccionError = document.getElementById("reservaDireccionError");
+
+document.getElementById("closeReservaModal").addEventListener("click", () => closeModal(reservaModalOverlay, reservaForm));
+document.getElementById("cancelReservaModal").addEventListener("click", () => closeModal(reservaModalOverlay, reservaForm));
+reservaModalOverlay.addEventListener("click", (e) => {
+  if (e.target === reservaModalOverlay) closeModal(reservaModalOverlay, reservaForm);
+});
+
+reservaForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  let valid = true;
+  if (reservaNombreInput.value.trim() === "") {
+    reservaNombreError.textContent = "El nombre es obligatorio.";
+    valid = false;
+  } else {
+    reservaNombreError.textContent = "";
+  }
+
+  if (!EMAIL_REGEX.test(reservaCorreoInput.value.trim())) {
+    reservaCorreoError.textContent = "Ingresa un correo válido.";
+    valid = false;
+  } else {
+    reservaCorreoError.textContent = "";
+  }
+
+  if (reservaDireccionInput.value.trim() === "") {
+    reservaDireccionError.textContent = "La dirección es obligatoria.";
+    valid = false;
+  } else {
+    reservaDireccionError.textContent = "";
+  }
+
+  if (!valid) return;
+
+  // TODO backend: reemplazar por
+  // fetch("/api/pedidos", { method: "POST", headers: {...}, body: JSON.stringify({
+  //   tipo: "reserva", nombre, correo, direccion, items: cart, total: cartTotalPrice()
+  // }) })
+  closeModal(reservaModalOverlay, reservaForm);
+  clearCart();
+  closeCart();
+  showToast("Tu reserva fue exitosa");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  if (pedidoModalOverlay.classList.contains("active")) closeModal(pedidoModalOverlay, pedidoForm);
+  if (reservaModalOverlay.classList.contains("active")) closeModal(reservaModalOverlay, reservaForm);
+});
+
+// ===== OPEN / CLOSE DRAWER =====
 function openCart() {
   cartOverlay.classList.add("active");
   cartDrawer.classList.add("active");
@@ -223,6 +367,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeCart();
 });
 
+// ===== TOAST =====
 let toastTimeout;
 function showToast(message) {
   let toast = document.querySelector(".cart-toast");
@@ -279,12 +424,12 @@ function renderProducts() {
           <span class="product-price">$${product.price}</span>
           <span class="product-currency">USD</span>
         </div>
-        <a class="product-profile-link" href="html/perfil_zapato.html?id=${product.id}">Ver perfil del modelo</a>
       </div>
     </div>
   `).join("");
 }
 
+// Filter tabs (top of products section)
 document.querySelectorAll(".filter-tab").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentFilter = btn.dataset.filter;
@@ -294,6 +439,7 @@ document.querySelectorAll(".filter-tab").forEach((btn) => {
   });
 });
 
+// Brand card buttons (Nike / Jordan hero cards) also set the filter
 document.querySelectorAll(".brand-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     currentFilter = btn.dataset.filter;
@@ -305,6 +451,7 @@ document.querySelectorAll(".brand-btn").forEach((btn) => {
   });
 });
 
+// Delegate clicks inside the product grid (wishlist + quick add)
 productsGrid.addEventListener("click", (e) => {
   const wishBtn = e.target.closest(".wishlist-btn");
   const addBtn = e.target.closest(".quick-add-btn");
@@ -329,6 +476,7 @@ productsGrid.addEventListener("click", (e) => {
   }
 });
 
+// Marquee strip content
 const marqueeInner = document.getElementById("marqueeInner");
 let marqueeHTML = "";
 for (let i = 0; i < 6; i++) {
@@ -337,6 +485,7 @@ for (let i = 0; i < 6; i++) {
 }
 marqueeInner.innerHTML = marqueeHTML;
 
+// Initial render
 loadCart();
 renderProducts();
 renderCart();

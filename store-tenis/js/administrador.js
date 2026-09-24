@@ -13,7 +13,7 @@ function getCurrentUser() {
 function seedDemoAdminSession() {
   if (!getCurrentUser()) {
     localStorage.setItem(SESSION_KEY, JSON.stringify({
-      nombre: "Admin Demo",
+      nombre: "Admin",
       rol: "administrador",
     }));
   }

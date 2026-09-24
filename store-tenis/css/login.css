@@ -407,3 +407,25 @@ html, body {
   .login-brand { display: none; }
   .login-form-panel { padding: 24px; min-height: 100vh; }
 }
+
+.btn-volver {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8001c;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  color: #000000;
+  text-decoration: none;
+  z-index: 1000;
+  transition: background 0.2s ease;
+}
+
+.btn-volver:hover {
+  background: #ff3333;
+}

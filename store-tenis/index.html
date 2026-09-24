@@ -43,6 +43,7 @@
   </div>
 </nav>
 
+<!-- CART DRAWER -->
 <div class="cart-overlay" id="cartOverlay"></div>
 <aside class="cart-drawer" id="cartDrawer">
   <div class="cart-drawer-header">
@@ -74,11 +75,19 @@
       <span class="cart-total-amount" id="cartTotal">$0</span>
     </div>
     <p class="cart-shipping-note">reserva calculada al finalizar el pedido</p>
+
     <button class="checkout-btn" id="checkoutBtn">Finalizar pedido o separar para reserva</button>
+
+    <div class="order-choice" id="orderChoice" style="display:none;">
+      <button class="choice-btn choice-btn-pedido" id="choicePedidoBtn">Pedir</button>
+      <button class="choice-btn choice-btn-reserva" id="choiceReservaBtn">Reserva</button>
+    </div>
+
     <button class="clear-cart-btn" id="clearCartBtn">Vaciar carrito</button>
   </div>
 </aside>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-gradient"></div>
@@ -107,10 +116,11 @@
   </div>
 </section>
 
-
+<!-- BRAND CARDS -->
 <section id="marcas" class="brands">
   <div class="brands-inner">
     <div class="brands-grid">
+      <!-- Nike -->
       <div class="brand-card">
         <img class="brand-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop&auto=format" alt="Nike collection">
         <div class="brand-overlay"></div>
@@ -121,7 +131,7 @@
         </div>
       </div>
 
-
+      <!-- Jordan -->
       <div class="brand-card">
         <img class="brand-img" src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=800&h=600&fit=crop&auto=format" alt="Jordan collection">
         <div class="brand-overlay"></div>
@@ -135,7 +145,7 @@
   </div>
 </section>
 
-
+<!-- PRODUCTS -->
 <section id="productos" class="products">
   <div class="products-inner">
     <div class="products-header">
@@ -166,12 +176,12 @@
   </div>
 </section>
 
-
+<!-- BANNER STRIP -->
 <div class="marquee-strip">
   <div class="marquee-inner" id="marqueeInner"></div>
 </div>
 
-
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-grid">
@@ -218,6 +228,84 @@
     </div>
   </div>
 </footer>
+
+<!-- MODAL: PEDIDO (recoger en tienda) -->
+<div class="modal-overlay" id="pedidoModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Confirmar pedido</h3>
+      <button class="modal-close" id="closePedidoModal" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <form id="pedidoForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="pedidoNombre">Nombre completo</label>
+        <input type="text" id="pedidoNombre" class="form-input-flat" placeholder="Tu nombre completo">
+        <span class="form-error" id="pedidoNombreError"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="pedidoCorreo">Correo electrónico</label>
+        <input type="text" id="pedidoCorreo" class="form-input-flat" placeholder="tucorreo@ejemplo.com">
+        <span class="form-error" id="pedidoCorreoError"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="pedidoFecha">Fecha para recoger</label>
+        <input type="date" id="pedidoFecha" class="form-input-flat">
+        <span class="form-error" id="pedidoFechaError"></span>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="cancelPedidoModal">Cancelar</button>
+        <button type="submit" class="btn-submit-modal">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: RESERVA (separar producto) -->
+<div class="modal-overlay" id="reservaModalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Confirmar reserva</h3>
+      <button class="modal-close" id="closeReservaModal" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <form id="reservaForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="reservaNombre">Nombre completo</label>
+        <input type="text" id="reservaNombre" class="form-input-flat" placeholder="Tu nombre completo">
+        <span class="form-error" id="reservaNombreError"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reservaCorreo">Correo electrónico</label>
+        <input type="text" id="reservaCorreo" class="form-input-flat" placeholder="tucorreo@ejemplo.com">
+        <span class="form-error" id="reservaCorreoError"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reservaDireccion">Dirección</label>
+        <input type="text" id="reservaDireccion" class="form-input-flat" placeholder="Calle, número, ciudad">
+        <span class="form-error" id="reservaDireccionError"></span>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="cancelReservaModal">Cancelar</button>
+        <button type="submit" class="btn-submit-modal">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script src="js/index.js"></script>
 </body>

@@ -33,7 +33,7 @@ button { font-family: inherit; }
 
 .font-display { font-family: var(--font-display); }
 
-
+/* ===== NAV ===== */
 .nav {
   position: sticky;
   top: 0;
@@ -149,7 +149,7 @@ button { font-family: inherit; }
   font-weight: 700;
 }
 
-
+/* ===== HERO ===== */
 .hero {
   position: relative;
   height: 92vh;
@@ -294,7 +294,7 @@ button { font-family: inherit; }
   text-transform: uppercase;
 }
 
-
+/* ===== BRAND CARDS ===== */
 .brands { padding: 80px 24px; }
 
 .brands-inner {
@@ -389,7 +389,7 @@ button { font-family: inherit; }
   color: #fff;
 }
 
-
+/* ===== PRODUCTS ===== */
 .products { padding: 0 24px 100px; }
 
 .products-inner {
@@ -633,7 +633,7 @@ button { font-family: inherit; }
   color: #444;
 }
 
-
+/* ===== MARQUEE STRIP ===== */
 .marquee-strip {
   background: var(--red);
   padding: 20px 24px;
@@ -657,7 +657,7 @@ button { font-family: inherit; }
 
 .marquee-item.dim { opacity: 0.5; }
 
-
+/* ===== FOOTER ===== */
 .footer {
   background: #0d0d0d;
   border-top: 1px solid #1a1a1a;
@@ -741,7 +741,7 @@ button { font-family: inherit; }
 
 .footer-legal a:hover { color: #666; }
 
-
+/* ===== CART DRAWER ===== */
 .cart-overlay {
   position: fixed;
   inset: 0;
@@ -1030,7 +1030,7 @@ button { font-family: inherit; }
   .cart-drawer { width: 100%; max-width: 100vw; }
 }
 
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .brands-grid { grid-template-columns: 1fr; }
@@ -1045,14 +1045,152 @@ button { font-family: inherit; }
   .hero-title { font-size: clamp(56px, 16vw, 100px); }
 }
 
-.product-profile-link {
-  display: inline-block;
-  margin-top: 16px;
-  color: #aaa;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+/* ===== ORDER CHOICE (pedir / reserva) ===== */
+.order-choice {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-.product-profile-link:hover { color: var(--text); }
+.choice-btn {
+  flex: 1;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.choice-btn-pedido {
+  background: var(--red);
+  border: none;
+  color: #fff;
+}
+.choice-btn-pedido:hover { background: var(--red-hover); }
+
+.choice-btn-reserva {
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+}
+.choice-btn-reserva:hover { background: var(--red); color: #fff; }
+
+/* ===== CHECKOUT MODALS (pedido / reserva) ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+}
+.modal-close:hover { color: var(--text); }
+
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 7px;
+}
+
+.form-input-flat {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 11px 12px;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input-flat:focus { border-color: var(--red); }
+
+.form-input-flat[type="date"] { color-scheme: dark; }
+
+.form-error {
+  display: block;
+  min-height: 14px;
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 5px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.btn-secondary:hover { border-color: var(--muted); }
+
+.btn-submit-modal {
+  background: var(--red);
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-submit-modal:hover { background: var(--red-hover); }
