@@ -1186,13 +1186,14 @@ button {
 }
 
 .choice-btn-pedido {
-  background: var(--red);
-  border: none;
-  color: #fff;
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
 }
 
 .choice-btn-pedido:hover {
-  background: var(--red-hover);
+  background: var(--red);
+  color: #fff;
 }
 
 .choice-btn-reserva {

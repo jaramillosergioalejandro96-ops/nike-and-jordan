@@ -26,7 +26,7 @@ window.CATALOG_PRODUCTS = [
     price: 210,
     color: "Chicago / White",
     description: "La silueta que cambió la cancha y la calle, con el carácter original de Jordan.",
-    img: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&h=800&fit=crop&auto=format",
+    img: "https://felda.com.co/cdn/shop/files/AIR-JORDAN_0004_Grupo-2.jpg?v=1749071279&width=1024",
     tag: "SALE",
   },
   {

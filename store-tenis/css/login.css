@@ -460,20 +460,23 @@ body {
   position: fixed;
   top: 16px;
   left: 16px;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e8001c;
+  background: transparent;
+  border: 2px solid #ff3333;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  color: #000000;
+  color: #ff3333;
   text-decoration: none;
   z-index: 1000;
-  transition: background 0.2s ease;
+  transition: border 0.2s ease;
 }
 
 .btn-volver:hover {
-  background: #ff3333;
+  border-color: #ff6666;
+  color: #ff6666;
+
 }
