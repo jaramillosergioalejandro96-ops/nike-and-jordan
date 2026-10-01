@@ -39,6 +39,7 @@ function renderProfile(product) {
         <h1 class="profile-title">${escapeHtml(product.name)}</h1>
         <p class="profile-color">${escapeHtml(product.color)}</p>
         <p class="profile-description">${escapeHtml(description)}</p>
+        <a class="view-3d-button" href="../html/3dVisual.html?id=${encodeURIComponent(String(product.id))}">Ver en 3D</a>
         <div><span class="profile-price">$${escapeHtml(product.price)}</span><span class="profile-currency">USD</span></div>
         <div class="purchase-panel">
           <label class="field-label">Selecciona tu talla</label>

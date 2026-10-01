@@ -1,8 +1,33 @@
 (function () {
   const holder = document.getElementById('canvas-holder');
+  const productId = new URLSearchParams(window.location.search).get('id');
+  document.getElementById('backButton').addEventListener('click', () => {
+    if (document.referrer) {
+      window.history.back();
+      return;
+    }
+    const fallbackUrl = productId
+      ? `perfil_zapato.html?id=${encodeURIComponent(productId)}`
+      : '../index.html';
+    window.location.href = fallbackUrl;
+  });
 
   // Ruta de tu imagen fija. Cámbiala por la tuya, p. ej. 'assets/mi-imagen.jpg'
 const DEFAULT_IMAGE_SRC = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80';
+  let product;
+  try {
+    const savedProducts = JSON.parse(localStorage.getItem('nikeJordanAdminCatalog') || '[]');
+    const products = savedProducts.length > 0 ? savedProducts : (window.CATALOG_PRODUCTS || []);
+    product = products.find((item) => String(item.id) === productId);
+  } catch (error) {
+    product = (window.CATALOG_PRODUCTS || []).find((item) => String(item.id) === productId);
+  }
+  const imageSrc = product?.img || DEFAULT_IMAGE_SRC;
+  if (product) {
+    document.title = `${product.name} · Vista 3D`;
+    document.querySelector('#hud h1').textContent = product.name;
+  }
+
   // Cómo se monta la imagen en 3D: 'plane', 'box', 'cylinder' o 'curve'
   const SHAPE_MODE = 'plane';
 
@@ -120,7 +145,7 @@ const DEFAULT_IMAGE_SRC = 'https://images.unsplash.com/photo-1506744038136-46273
   }
 
   // Carga automática al iniciar: no se le pide nada al usuario.
-  loadImage(DEFAULT_IMAGE_SRC);
+  loadImage(imageSrc);
 
   // Suelo de referencia sutil
   const grid = new THREE.GridHelper(10, 20, 0x555577, 0x33334a);
