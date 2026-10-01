@@ -14,9 +14,12 @@
   --font-body: 'Inter', sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--bg);
@@ -31,7 +34,13 @@ html, body {
   letter-spacing: -0.02em;
   color: var(--text);
 }
-.logo-x { color: var(--red); font-size: 15px; font-weight: 700; margin: 0 8px; }
+
+.logo-x {
+  color: var(--red);
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 8px;
+}
 
 
 .admin-topbar {
@@ -42,7 +51,10 @@ html, body {
   border-bottom: 1px solid var(--border);
 }
 
-.admin-logo { display: flex; align-items: center; }
+.admin-logo {
+  display: flex;
+  align-items: center;
+}
 
 .admin-topbar-right {
   display: flex;
@@ -68,7 +80,9 @@ html, body {
   border-radius: 2px;
 }
 
-.admin-username { color: var(--muted); }
+.admin-username {
+  color: var(--muted);
+}
 
 .logout-btn {
   background: transparent;
@@ -80,7 +94,11 @@ html, body {
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
 }
-.logout-btn:hover { border-color: var(--red); color: var(--text); }
+
+.logout-btn:hover {
+  border-color: var(--red);
+  color: var(--text);
+}
 
 
 .admin-main {
@@ -133,7 +151,10 @@ html, body {
   white-space: nowrap;
   transition: background 0.2s;
 }
-.btn-add:hover { background: var(--red-hover); }
+
+.btn-add:hover {
+  background: var(--red-hover);
+}
 
 .btn-secondary {
   background: transparent;
@@ -146,7 +167,10 @@ html, body {
   cursor: pointer;
   transition: border-color 0.2s;
 }
-.btn-secondary:hover { border-color: var(--muted); }
+
+.btn-secondary:hover {
+  border-color: var(--muted);
+}
 
 
 .admin-toolbar {
@@ -168,10 +192,19 @@ html, body {
   min-width: 240px;
   outline: none;
 }
-.search-input::placeholder { color: #555; }
-.search-input:focus { border-color: var(--red); }
 
-.filter-pills { display: flex; gap: 8px; }
+.search-input::placeholder {
+  color: #555;
+}
+
+.search-input:focus {
+  border-color: var(--red);
+}
+
+.filter-pills {
+  display: flex;
+  gap: 8px;
+}
 
 .filter-pill {
   background: transparent;
@@ -184,6 +217,7 @@ html, body {
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
 }
+
 .filter-pill.active,
 .filter-pill:hover {
   border-color: var(--red);
@@ -218,7 +252,10 @@ html, body {
 .admin-table tbody tr {
   border-bottom: 1px solid var(--border);
 }
-.admin-table tbody tr:last-child { border-bottom: none; }
+
+.admin-table tbody tr:last-child {
+  border-bottom: none;
+}
 
 .admin-table td {
   padding: 12px 16px;
@@ -243,9 +280,15 @@ html, body {
   letter-spacing: 0.04em;
   color: var(--text);
 }
-.table-brand.brand-jordan { color: var(--red); }
 
-.table-color { color: var(--muted); font-size: 12px; }
+.table-brand.brand-jordan {
+  color: var(--red);
+}
+
+.table-color {
+  color: var(--muted);
+  font-size: 12px;
+}
 
 .price-input {
   width: 90px;
@@ -258,8 +301,14 @@ html, body {
   border-radius: 2px;
   outline: none;
 }
-.price-input:focus { border-color: var(--red); }
-.price-input.dirty { border-color: #e8a300; }
+
+.price-input:focus {
+  border-color: var(--red);
+}
+
+.price-input.dirty {
+  border-color: #e8a300;
+}
 
 .tag-input {
   width: 100px;
@@ -271,7 +320,11 @@ html, body {
   border-radius: 2px;
   outline: none;
 }
-.tag-input:focus { border-color: var(--red); color: var(--text); }
+
+.tag-input:focus {
+  border-color: var(--red);
+  color: var(--text);
+}
 
 .row-actions {
   display: flex;
@@ -290,7 +343,11 @@ html, body {
   cursor: pointer;
   transition: opacity 0.2s;
 }
-.row-save-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.row-save-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
 
 .row-delete-btn {
   background: transparent;
@@ -303,7 +360,11 @@ html, body {
   align-items: center;
   transition: border-color 0.2s, color 0.2s;
 }
-.row-delete-btn:hover { border-color: var(--red); color: var(--red); }
+
+.row-delete-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
 
 .admin-empty {
   padding: 60px 20px;
@@ -316,14 +377,17 @@ html, body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 100;
   padding: 20px;
 }
-.modal-overlay.active { display: flex; }
+
+.modal-overlay.active {
+  display: flex;
+}
 
 .modal {
   background: var(--surface);
@@ -358,9 +422,14 @@ html, body {
   padding: 4px;
   display: flex;
 }
-.modal-close:hover { color: var(--text); }
 
-.form-group { margin-bottom: 16px; }
+.modal-close:hover {
+  color: var(--text);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
 
 .form-label {
   display: block;
@@ -384,7 +453,10 @@ html, body {
   outline: none;
   transition: border-color 0.2s;
 }
-.form-input-flat:focus { border-color: var(--red); }
+
+.form-input-flat:focus {
+  border-color: var(--red);
+}
 
 select.form-input-flat {
   appearance: none;
@@ -433,6 +505,7 @@ select.form-input-flat {
   transition: opacity 0.25s, transform 0.25s;
   z-index: 200;
 }
+
 .admin-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
@@ -440,10 +513,21 @@ select.form-input-flat {
 
 
 @media (max-width: 720px) {
-  .admin-topbar { padding: 16px 20px; }
-  .admin-main { padding: 32px 20px 60px; }
-  .admin-title { font-size: 32px; }
-  .form-row-2 { grid-template-columns: 1fr; }
+  .admin-topbar {
+    padding: 16px 20px;
+  }
+
+  .admin-main {
+    padding: 32px 20px 60px;
+  }
+
+  .admin-title {
+    font-size: 32px;
+  }
+
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 
@@ -458,7 +542,7 @@ select.form-input-flat {
   justify-content: center;
   background: #e8001c;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   color: #000000;
   text-decoration: none;
   z-index: 1000;
@@ -467,4 +551,41 @@ select.form-input-flat {
 
 .btn-volver:hover {
   background: #ff3333;
+}
+
+/* ===== RESPONSIVE EXTRA ===== */
+@media (max-width: 720px) {
+  .admin-topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-topbar-right {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .filter-pills {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-main {
+    padding: 24px 16px 48px;
+  }
+
+  .admin-title {
+    font-size: 26px;
+  }
 }

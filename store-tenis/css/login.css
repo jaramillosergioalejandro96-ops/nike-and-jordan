@@ -14,9 +14,12 @@
   --font-body: 'Inter', sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -30,6 +33,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 
@@ -53,7 +57,7 @@ html, body {
 .login-brand-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.6) 50%, rgba(232,0,28,0.15) 100%);
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.9) 0%, rgba(8, 8, 8, 0.6) 50%, rgba(232, 0, 28, 0.15) 100%);
 }
 
 .login-brand-content {
@@ -184,7 +188,9 @@ html, body {
   transition: border-color 0.2s;
 }
 
-.form-input::placeholder { color: #444; }
+.form-input::placeholder {
+  color: #444;
+}
 
 .form-input:focus {
   border-color: var(--red);
@@ -210,7 +216,9 @@ html, body {
   transition: color 0.2s;
 }
 
-.toggle-password:hover { color: #999; }
+.toggle-password:hover {
+  color: #999;
+}
 
 .form-error {
   display: block;
@@ -271,7 +279,9 @@ html, body {
   user-select: none;
 }
 
-.checkbox-wrap input { display: none; }
+.checkbox-wrap input {
+  display: none;
+}
 
 .checkbox-box {
   width: 16px;
@@ -283,12 +293,12 @@ html, body {
   transition: background 0.2s, border-color 0.2s;
 }
 
-.checkbox-wrap input:checked + .checkbox-box {
+.checkbox-wrap input:checked+.checkbox-box {
   background: var(--red);
   border-color: var(--red);
 }
 
-.checkbox-wrap input:checked + .checkbox-box::after {
+.checkbox-wrap input:checked+.checkbox-box::after {
   content: "";
   position: absolute;
   left: 5px;
@@ -307,7 +317,9 @@ html, body {
   transition: color 0.2s;
 }
 
-.forgot-link:hover { color: var(--red); }
+.forgot-link:hover {
+  color: var(--red);
+}
 
 
 .form-banner {
@@ -350,7 +362,9 @@ html, body {
   gap: 10px;
 }
 
-.submit-btn:hover:not(:disabled) { background: var(--red-hover); }
+.submit-btn:hover:not(:disabled) {
+  background: var(--red-hover);
+}
 
 .submit-btn:disabled {
   opacity: 0.5;
@@ -360,14 +374,16 @@ html, body {
 .spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .attempts-note {
@@ -389,23 +405,55 @@ html, body {
   color: var(--red);
   text-decoration: none;
 }
-.login-footer-note a:hover { text-decoration: underline; }
+
+.login-footer-note a:hover {
+  text-decoration: underline;
+}
 
 
 @keyframes shake {
-  10%, 90% { transform: translateX(-1px); }
-  20%, 80% { transform: translateX(2px); }
-  30%, 50%, 70% { transform: translateX(-4px); }
-  40%, 60% { transform: translateX(4px); }
+
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
 }
 
-.shake { animation: shake 0.5s; }
+.shake {
+  animation: shake 0.5s;
+}
 
 
 @media (max-width: 900px) {
-  .login-page { grid-template-columns: 1fr; }
-  .login-brand { display: none; }
-  .login-form-panel { padding: 24px; min-height: 100vh; }
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    display: none;
+  }
+
+  .login-form-panel {
+    padding: 24px;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
 }
 
 .btn-volver {
@@ -419,7 +467,7 @@ html, body {
   justify-content: center;
   background: #e8001c;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   color: #000000;
   text-decoration: none;
   z-index: 1000;
